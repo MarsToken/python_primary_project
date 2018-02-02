@@ -94,7 +94,7 @@ class BasePlane:
             self.death_index += 1
         if self.death_index > 3:
             self.death_index = 0
-            self.is_dead = False
+            # self.is_dead = False
             if self in BasePlane.list_player_plant:
                 BasePlane.list_player_plant.remove(self)
             list_temp = []
@@ -102,6 +102,7 @@ class BasePlane:
                 list_temp.append(self)
             for temp in list_temp:
                 BasePlane.list_enemy_plant.remove(temp)
+            self.start = False
             # time.sleep(1)
             # exit()
 
@@ -114,8 +115,10 @@ class Player(BasePlane):
                          Constants.PLAYER_WIDTH,
                          Constants.PLAYER_HEIGHT,
                          '../feiji/hero1.png', 1)
+        BasePlane.list_player_plant.clear()
         BasePlane.list_player_plant.append(self)
         self.score = 0
+        self.start = False
 
     def move_left(self):
         self.x -= Constants.UNIT_LEN * Constants.PLAYER_MOVE_FACTOR
