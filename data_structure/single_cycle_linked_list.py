@@ -43,22 +43,34 @@ class SingleLinkedList:
         # 退出循环，cur指向尾节点，但未节点的元素未打印
         print(cur.elem)
 
+    # changed4
     # 头插法-注意
     def add(self, item):
         node = Node(item)
-        node.next = self.__head
-        self.__head = node
+        if self.is_empty():
+            self.__head = node
+            node.next = node
+        else:
+            while cur.next is not self.__head:
+                cur = cur.next
+            node.next = self.__head
+            self.__head = node
+            # 退出循环，cur指向尾节点
+            cur.next = self.__head
 
+    # changed5
     # 尾插法
     def append(self, item):
         node = Node(item)
         if self.is_empty():
             self.__head = node
+            node.next = node
         else:
             # 非头部
             cur = self.__head
-            while cur.next is not None:
+            while cur.next is not self.__head:
                 cur = cur.next
+            node.next = self.__head
             cur.next = node
 
     def insert(self, pos, item):
@@ -78,29 +90,47 @@ class SingleLinkedList:
             node.next = pre.next
             pre.next = node
 
+    # changed7
     def remove(self, item):
         cur = self.__head
         pre = None
-        while cur is not None:
+        while cur is not self.__head:
             if cur.elem == item:
                 # 是否是头节点
                 if cur == self.__head:
+                    rear = self.__head
+                    while rear.next != self.__head:
+                        rear = rear.next
                     self.__head = cur.next
+                    rear.next = self.__head
                 else:
                     pre.next = cur.next
                 return True
             else:
+                # 中间节点
                 pre = cur
                 cur = cur.next
+        # 退出循环，cur指向尾节点
+        if cur.elem == item:
+            if cur == self.__head:
+                self.__head = None
+            else:
+                pre.next = cur.next
         return False
 
+    # changed8
     def search(self, item):
+        if self.is_empty():
+            return False
         cur = self.__head
-        while cur is not None:
+        while cur is not self.__head:
             if cur.elem == item:
                 return True
             else:
                 cur = cur.next
+        # 退出循环，cur指向尾节点
+        if cur.elem == item:
+            return True
         return False
 
 
